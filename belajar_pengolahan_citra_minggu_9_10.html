@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Belajar Pengolahan Citra Digital | Minggu 9–10</title>
+<script>
+window.MathJax = {
+  tex: {inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']]},
+  options: {skipHtmlTags: ['script','noscript','style','textarea','pre','code']}
+};
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+:root{--ink:#171717;--muted:#666;--line:#dedede;--soft:#f6f6f6;--white:#fff}
+*{box-sizing:border-box}
+body{margin:0;background:var(--white);color:var(--ink);font:16px/1.65 Arial,Helvetica,sans-serif}
+header{border-bottom:1px solid var(--line);background:#fff;position:sticky;top:0;z-index:5}
+.top{max-width:1100px;margin:auto;padding:14px 22px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{font-weight:700;letter-spacing:-.3px}
+nav{display:flex;gap:6px;flex-wrap:wrap}
+nav button,.menu-card,.back,.action{font:inherit;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:7px;padding:9px 13px;cursor:pointer}
+nav button:hover,.menu-card:hover,.back:hover,.action:hover{background:var(--soft)}
+nav button.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+main{max-width:1100px;margin:0 auto;padding:34px 22px 70px}
+section.page{display:none}section.page.active{display:block}
+h1{font-size:clamp(28px,4vw,42px);line-height:1.2;letter-spacing:-1px;margin:10px 0 14px}
+h2{font-size:26px;line-height:1.3;margin:30px 0 12px}
+h3{font-size:19px;margin:22px 0 8px}
+p{margin:8px 0 13px}
+.lead{font-size:18px;color:#444;max-width:760px}
+.eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:1.4px;color:var(--muted);font-weight:bold}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:13px;margin:25px 0}
+.menu-card{text-align:left;padding:20px;min-height:140px}
+.menu-card strong{display:block;font-size:19px;margin-bottom:7px}
+.menu-card span{color:var(--muted);font-size:14px}
+.panel{border:1px solid var(--line);border-radius:8px;padding:18px;margin:16px 0;background:#fff}
+.note{background:var(--soft);border-left:3px solid #777;padding:12px 15px;margin:14px 0}
+.formula{overflow-x:auto;background:#fafafa;border:1px solid #e8e8e8;border-radius:7px;padding:13px 16px;margin:12px 0}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:15px}
+th,td{border:1px solid var(--line);padding:10px;text-align:left;vertical-align:top}
+th{background:var(--soft)}
+ul,ol{padding-left:23px}
+li{margin:5px 0}
+.small{font-size:14px;color:var(--muted)}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:15px}
+.step{padding:12px 14px;border:1px solid var(--line);border-radius:7px;margin:10px 0}
+.step b{display:block;margin-bottom:4px}
+.question{padding:17px 0;border-bottom:1px solid var(--line)}
+.question p{font-weight:600}
+.options{display:grid;gap:7px;margin:10px 0}
+.options label{display:flex;gap:9px;align-items:flex-start;padding:8px 10px;border:1px solid var(--line);border-radius:6px;cursor:pointer}
+.options label:hover{background:var(--soft)}
+.feedback{font-size:14px;margin-top:8px}
+.correct{color:#176b36}.wrong{color:#a22}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin:20px 0}
+footer{border-top:1px solid var(--line);padding:18px 22px;color:var(--muted);font-size:13px;text-align:center}
+@media(max-width:650px){.top{align-items:flex-start;flex-direction:column}nav{width:100%}nav button{font-size:13px;padding:7px 9px}main{padding:25px 16px 55px}table{font-size:13px}}
+</style>
+</head>
+<body>
+<header><div class="top">
+  <div class="brand">Pengolahan Citra Digital</div>
+  <nav aria-label="Navigasi utama">
+    <button class="active" data-page="home">Beranda</button>
+    <button data-page="week9">Minggu 9</button>
+    <button data-page="week10">Minggu 10</button>
+    <button data-page="quiz">Latihan soal</button>
+    <button data-page="calculation">Uraian hitungan</button>
+  </nav>
+</div></header>
+<main>
+<section id="home" class="page active">
+  <div class="eyebrow">Persiapan kuis • Minggu 9 dan 10</div>
+  <h1>Belajar Pengolahan Citra Digital</h1>
+  <p class="lead">Ringkasan materi, konsep penting, latihan pilihan ganda, dan contoh hitungan. Fokuskan pemahaman teori, lalu latih perhitungan color space di Minggu 10.</p>
+  <div class="grid">
+    <button class="menu-card" data-go="week9"><strong>Materi Minggu 9</strong><span>Edge Detection, turunan, gradient, operator Prewitt, Sobel, dan Robert.</span></button>
+    <button class="menu-card" data-go="week10"><strong>Materi Minggu 10</strong><span>Color, color mixing, CIE, Munsell, NCS, dan color space.</span></button>
+    <button class="menu-card" data-go="quiz"><strong>Latihan soal</strong><span>Pilihan ganda teori dan konsep dari kedua minggu.</span></button>
+    <button class="menu-card" data-go="calculation"><strong>Uraian penghitungan</strong><span>Contoh langkah demi langkah untuk rumus yang perlu dihitung.</span></button>
+  </div>
+  <div class="panel">
+    <h3>Strategi belajar singkat</h3>
+    <ol>
+      <li>Baca ringkasan Minggu 9 dan 10 terlebih dahulu.</li>
+      <li>Hafalkan perbedaan konsep yang sering tertukar, misalnya RGB vs CMYK dan Prewitt vs Sobel.</li>
+      <li>Kerjakan latihan pilihan ganda tanpa melihat materi.</li>
+      <li>Ulangi bagian uraian hitungan, terutama CIE xy, konversi RGB ke YCbCr/YUV, dan NCS.</li>
+    </ol>
+  </div>
+</section>
+
+<section id="week9" class="page">
+  <div class="eyebrow">Minggu 9</div><h1>Edge Detection</h1>
+  <p class="lead">Edge adalah perubahan brightness yang tajam atau diskontinuitas pada citra. Deteksi tepi membantu menemukan batas objek maupun perubahan di dalam objek.</p>
+  <h2>1. Konsep edge</h2>
+  <ul>
+    <li>Edge dapat muncul di antara objek atau di dalam objek.</li>
+    <li>Penyebabnya antara lain perubahan orientasi permukaan, pencahayaan (illumination), dan reflektansi.</li>
+    <li>Contoh perubahan brightness: cast shadow, batas objek, garis pada kulit zebra, dan bintik pada kulit leopard.</li>
+  </ul>
+  <h2>2. Edge models</h2>
+  <table><tr><th>Model</th><th>Gambaran</th><th>Inti</th></tr>
+  <tr><td>Step</td><td>Perubahan intensitas mendadak</td><td>Model ideal edge.</td></tr>
+  <tr><td>Ramp</td><td>Perubahan intensitas bertahap</td><td>Menggambarkan transisi yang tidak instan.</td></tr>
+  <tr><td>Roof</td><td>Naik lalu turun membentuk puncak</td><td>Model perubahan seperti ridge/garis terang.</td></tr></table>
+  <div class="note">Edge ideal dimodelkan sebagai step function. Edge nyata biasanya sedikit blur, sehingga lebih menyerupai blurred step.</div>
+  <h2>3. Turunan pertama dan kedua</h2>
+  <ul>
+    <li>Turunan pertama bernilai tinggi di sekitar perubahan intensitas.</li>
+    <li>Slope naik menghasilkan nilai turunan positif yang tinggi; slope turun menghasilkan nilai negatif yang tinggi.</li>
+    <li>Untuk step edge ideal, turunan pertama memiliki peak pada edge.</li>
+    <li>Turunan kedua menunjukkan zero crossing pada edge.</li>
+  </ul>
+  <div class="formula">\[ f'(x)=\frac{df(x)}{dx} \qquad f''(x)=\frac{d^2f(x)}{dx^2} \]</div>
+  <h3>Turunan fungsi diskrit</h3>
+  <table><tr><th>Metode</th><th>Rumus</th><th>Kegunaan</th></tr>
+  <tr><td>Forward difference</td><td>\(\Delta f(x)=f(x+1)-f(x)\)</td><td>Slope ke kanan.</td></tr>
+  <tr><td>Backward difference</td><td>\(\Delta f(x)=f(x)-f(x-1)\)</td><td>Slope ke kiri.</td></tr>
+  <tr><td>Central difference</td><td>\(\Delta f(x)=\frac{1}{2}[f(x+1)-f(x-1)]\)</td><td>Rata-rata slope kiri dan kanan.</td></tr></table>
+  <h2>4. Gradient pada citra</h2>
+  <p>Gradient adalah vektor yang menunjukkan arah perubahan fungsi paling cepat. Arah gradient tegak lurus terhadap kontur edge.</p>
+  <div class="formula">\[
+  \nabla I(x,y)=
+  \begin{bmatrix}G_x\\G_y\end{bmatrix}
+  =
+  \begin{bmatrix}\frac{\partial I}{\partial x}\\[3pt]\frac{\partial I}{\partial y}\end{bmatrix}
+  \]</div>
+  <div class="formula">\[
+  |\nabla I|=\sqrt{G_x^2+G_y^2}
+  \qquad
+  \theta=\tan^{-1}\left(\frac{G_y}{G_x}\right)
+  \]</div>
+  <ul><li>\(G_x\): perubahan arah horizontal.</li><li>\(G_y\): perubahan arah vertikal.</li><li>Magnitude menunjukkan kekuatan perubahan brightness.</li><li>Magnitude gradient bersifat invariant terhadap rotasi citra, sesuai materi slide.</li></ul>
+  <h2>5. Operator edge</h2>
+  <p>Operator edge memperkirakan gradient lokal, kemudian menghasilkan arah dan magnitude edge. Perbedaan operator terletak pada filter dan cara menggabungkan komponen gradient.</p>
+  <div class="two">
+    <div class="panel"><h3>Prewitt</h3><div class="formula">\[
+      G_x=\begin{bmatrix}-1&0&1\\-1&0&1\\-1&0&1\end{bmatrix}
+      \quad
+      G_y=\begin{bmatrix}-1&-1&-1\\0&0&0\\1&1&1\end{bmatrix}
+      \]</div><p>Bobot averaging sama pada baris/kolom.</p><p class="small">Scaling factor: \(1/6\).</p></div>
+    <div class="panel"><h3>Sobel</h3><div class="formula">\[
+      G_x=\begin{bmatrix}-1&0&1\\-2&0&2\\-1&0&1\end{bmatrix}
+      \quad
+      G_y=\begin{bmatrix}-1&-2&-1\\0&0&0\\1&2&1\end{bmatrix}
+      \]</div><p>Bobot bagian tengah lebih besar (pola 1-2-1), sehingga averaging lebih menekankan bagian tengah.</p><p class="small">Scaling factor: \(1/8\).</p></div>
+  </div>
+  <div class="panel"><h3>Robert operator</h3><p>Mengestimasi gradient pada dua diagonal citra dengan filter 2×2.</p>
+    <div class="formula">\[
+    H_1=\begin{bmatrix}0&1\\1&0\end{bmatrix}
+    \qquad
+    H_2=\begin{bmatrix}1&0\\0&1\end{bmatrix}
+    \]</div>
+  </div>
+  <h2>6. Gradient-based edge detection</h2>
+  <ol>
+    <li>Hitung turunan citra melalui convolution.</li>
+    <li>Hitung gradient magnitude dan direction.</li>
+    <li>Tandai kandidat dengan magnitude besar.</li>
+    <li>Pertahankan titik sebagai edge jika magnitude melewati threshold dan menjadi local maximum pada arah gradient.</li>
+  </ol>
+  <h2>7. Noise dan smoothing</h2>
+  <ul><li>Finite difference sensitif terhadap noise.</li><li>Turunan kedua dapat memperkuat noise.</li><li>Solusinya: lakukan smoothing/pre-smoothing sebelum edge detection.</li></ul>
+  <div class="note"><b>Yang perlu diingat untuk kuis:</b> turunan pertama = peak; turunan kedua = zero crossing; Prewitt = bobot rata; Sobel = bobot tengah lebih besar; Robert = diagonal 2×2; noise ditangani dengan smoothing.</div>
+</section>
+
+<section id="week10" class="page">
+  <div class="eyebrow">Minggu 10</div><h1>Color and Color Space</h1>
+  <p class="lead">Materi membahas karakteristik warna, pencampuran warna, sistem pengukuran warna, serta model color space.</p>
+  <h2>1. Tiga karakteristik warna</h2>
+  <table><tr><th>Karakteristik</th><th>Arti</th></tr><tr><td>Hue</td><td>Jenis/nama warna, misalnya merah atau biru.</td></tr><tr><td>Brightness</td><td>Tingkat terang atau gelap.</td></tr><tr><td>Saturation</td><td>Kemurnian atau intensitas warna.</td></tr></table>
+  <h2>2. Additive vs subtractive color mixing</h2>
+  <div class="two">
+    <div class="panel"><h3>Additive (cahaya)</h3><p>Warna primer: Red, Green, Blue (RGB).</p><ul><li>Red + Green = Yellow</li><li>Red + Blue = Magenta</li><li>Green + Blue = Cyan</li><li>RGB dengan intensitas penuh = White</li></ul><p class="small">Contoh penggunaan: layar/display.</p></div>
+    <div class="panel"><h3>Subtractive (pigmen)</h3><p>Warna primer: Cyan, Magenta, Yellow (CMY).</p><ul><li>Cyan + Magenta = Blue</li><li>Magenta + Yellow = Red</li><li>Yellow + Cyan = Green</li><li>Gabungan ideal CMY = Black</li></ul><p class="small">Pigmen menyerap (absorb) cahaya. Contoh: pencetakan.</p></div>
+  </div>
+  <h2>3. Newton Color Circle dan Maxwell Triangle</h2>
+  <ul><li><b>Newton Color Circle:</b> alat untuk memprediksi pencampuran warna; berkaitan dengan hue dan saturation.</li><li><b>Maxwell Triangle:</b> slide memperlihatkan hubungan komponen warna, termasuk penghubung G dan B serta komponen negatif Red.</li><li><b>Spectral locus:</b> batas/lokus warna spektral pada diagram.</li><li><b>Spectral color:</b> warna dengan saturation penuh (full saturated color), sesuai materi.</li></ul>
+  <h2>4. CIE 1931 XYZ</h2>
+  <ul><li>Salah satu color space dan disebut sebagai color space pertama yang didefinisikan secara matematis pada slide.</li><li>Parameter: X, Y, Z atau Y (brightness), x dan y (chromaticity).</li><li>XYZ menjadi sistem referensi untuk kalibrasi monitor, kamera, dan printer.</li><li>Y menyatakan brightness pada penjelasan slide.</li></ul>
+  <div class="formula">\[
+  x=\frac{X}{X+Y+Z}
+  \qquad
+  y=\frac{Y}{X+Y+Z}
+  \]</div>
+  <p>Perhitungan tristimulus dari objek menggunakan spectral power distribution illuminant \(S(\lambda)\), reflectance objek \(R(\lambda)\), dan matching functions \(x(\lambda),y(\lambda),z(\lambda)\).</p>
+  <div class="formula">\[
+  X=k\sum_{\lambda=l}^{u}x(\lambda)S(\lambda)R(\lambda)
+  \quad
+  Y=k\sum_{\lambda=l}^{u}y(\lambda)S(\lambda)R(\lambda)
+  \]</div>
+  <div class="formula">\[
+  Z=k\sum_{\lambda=l}^{u}z(\lambda)S(\lambda)R(\lambda)
+  \qquad
+  k=\frac{100}{\sum_{\lambda=l}^{u}y(\lambda)S(\lambda)}
+  \]</div>
+  <h2>5. CIE Lab dan CIE Luv</h2>
+  <table><tr><th>Model</th><th>Komponen</th><th>Penggunaan/keterangan pada slide</th></tr>
+  <tr><td>CIE Lab (L*a*b*)</td><td>L*: lightness; a*: green-red; b*: blue-yellow</td><td>Mendekati persepsi manusia; pengolahan citra, desain grafis, pencetakan, industri yang membutuhkan akurasi warna tinggi.</td></tr>
+  <tr><td>CIE Luv</td><td>L*, u*, v*</td><td>Representasi berdasarkan persepsi manusia; aplikasi pencahayaan dan tampilan warna pada monitor.</td></tr></table>
+  <h2>6. Color order system</h2>
+  <p>Sistem untuk mengatur/mengorganisasi warna. Slide mengaitkannya dengan trichromatic theory oleh Hermann von Helmholtz dan konsep color space. Dua sistem yang dibahas: Munsell dan Natural Color System (NCS).</p>
+  <h3>Munsell Color System</h3>
+  <ul><li><b>Hue (H):</b> lima hue primer pada slide: 5R, 5Y, 5G, 5B, 5P.</li><li><b>Value (V):</b> skala brightness 0 (black) sampai 10.</li><li><b>Chroma (C):</b> skala yang ditunjukkan slide dari 0 sampai 14.</li></ul>
+  <div class="formula">\[\text{5GY 8/2} \Rightarrow H=5GY,\quad V=8,\quad C=2\]</div>
+  <h3>Natural Color System (NCS)</h3>
+  <ul><li>Enam nilai: r, y, g, b, s (black), w (white).</li><li>Jumlah keenam nilai selalu 100.</li><li>Blackness \(s\); chromaticness \(c=r+y+g+b\).</li><li>Contoh hue Y90R berarti 90% red dan 10% yellow.</li></ul>
+  <div class="formula">\[\text{Data: }w=10,\ s=30,\ y=30,\ r=30\]</div>
+  <div class="formula">\[s=30,\quad c=r+y=60,\quad \phi=Y50R\]</div>
+  <div class="formula">\[\boxed{3060\text{-}Y50R}\]</div>
+  <h2>7. Color space</h2>
+  <p>Color space adalah model 3D untuk mendefinisikan warna tertentu. Perbedaan antar color space adalah pemilihan sumbu/axis.</p>
+  <table><tr><th>Color space</th><th>Karakteristik</th><th>Penggunaan pada slide</th></tr>
+  <tr><td>RGB</td><td>Additive; sumbu Red, Green, Blue; sederhana tetapi dapat memboroskan bandwidth.</td><td>Display/layar.</td></tr>
+  <tr><td>YCbCr</td><td>Y=luma, Cb=blue chroma, Cr=red chroma.</td><td>Digital video encoding dan digital camera (JPEG, MPEG, H.264).</td></tr>
+  <tr><td>YPbPr</td><td>Dikelompokkan bersama YCbCr pada slide.</td><td>Catatan umum: YPbPr lazimnya analog, sedangkan YCbCr digital.</td></tr>
+  <tr><td>YUV</td><td>Y=luma, U=blue chroma, V=red chroma.</td><td>Video encoding NTSC, PAL, SECAM.</td></tr>
+  <tr><td>YIQ</td><td>Y=luma; I dan Q merupakan kanal chroma yang diputar dari U-V pada YUV.</td><td>Video encoding NTSC.</td></tr>
+  <tr><td>CMYK</td><td>Subtractive; Cyan, Magenta, Yellow, Black.</td><td>Printer/pencetakan.</td></tr></table>
+  <h3>RGB ke YCbCr (rumus pada slide)</h3>
+  <div class="formula">\[
+  Y=0.299(R-G)+G+0.114(B-G)
+  \]</div>
+  <div class="formula">\[
+  Cb=0.564(B-Y)\qquad Cr=0.713(R-Y)
+  \]</div>
+  <h3>RGB ke YUV (rumus pada slide)</h3>
+  <div class="formula">\[
+  Y=0.299R+0.587G+0.114B
+  \]</div>
+  <div class="formula">\[
+  U=\frac{0.436(B-Y)}{1-0.114}
+  \qquad
+  V=\frac{0.615(R-Y)}{1-0.299}
+  \]</div>
+  <h3>RGB ke YIQ (matriks pada slide)</h3>
+  <div class="formula">\[
+  \begin{bmatrix}Y\\I\\Q\end{bmatrix}=
+  \begin{bmatrix}
+  0.299&0.587&0.114\\
+  0.595716&-0.274453&-0.321263\\
+  0.211456&-0.522591&0.311135
+  \end{bmatrix}
+  \begin{bmatrix}R\\G\\B\end{bmatrix}
+  \]</div>
+  <h3>CMYK (rumus yang ditampilkan slide)</h3>
+  <div class="formula">\[
+  C=255-Y-1.4021(Cr-128)
+  \]</div>
+  <div class="formula">\[
+  M=255-Y+0.3441(Cb-128)+0.7142(Cr-128)
+  \]</div>
+  <div class="formula">\[
+  Y_{\text{yellow}}=255-Y_{\text{luma}}-1.7718(Cb-128)
+  \]</div>
+  <div class="formula">\[K=\min(C,M,Y_{\text{yellow}})\]</div>
+  <div class="note"><b>Catatan simbol:</b> pada rumus CMYK slide, Y di ruas kanan merujuk luma YCbCr, sedangkan Y di ruas kiri adalah kanal Yellow. Rumus di atas ditulis mengikuti slide, bukan diklaim sebagai satu-satunya rumus konversi universal.</div>
+  <div class="note"><b>Inti alasan memakai luma dan chroma:</b> efisiensi bandwidth. Informasi brightness/luma dipisahkan dari informasi warna/chroma.</div>
+</section>
+
+<section id="calculation" class="page">
+  <div class="eyebrow">Latihan terstruktur</div><h1>Uraian Penghitungan</h1>
+  <p class="lead">Contoh berikut dibuat untuk melatih substitusi angka dan urutan pengerjaan. Rumus color space mengikuti yang tercantum di materi kuliah.</p>
+  <h2>Kasus 1 — CIE XYZ menjadi chromaticity x dan y</h2>
+  <p>Diketahui \(X=20\), \(Y=30\), dan \(Z=50\). Hitung nilai \(x\) dan \(y\).</p>
+  <div class="step"><b>Langkah 1: Hitung jumlah XYZ</b>\[X+Y+Z=20+30+50=100\]</div>
+  <div class="step"><b>Langkah 2: Hitung x</b>\[x=\frac{X}{X+Y+Z}=\frac{20}{100}=0.20\]</div>
+  <div class="step"><b>Langkah 3: Hitung y</b>\[y=\frac{Y}{X+Y+Z}=\frac{30}{100}=0.30\]</div>
+  <div class="note">Jawaban: \(x=0.20\) dan \(y=0.30\). Ingat: penyebut keduanya sama, yaitu \(X+Y+Z\).</div>
+
+  <h2>Kasus 2 — RGB ke YCbCr</h2>
+  <p>Diketahui pixel \(R=100\), \(G=150\), \(B=200\). Gunakan rumus di slide.</p>
+  <div class="step"><b>Langkah 1: Hitung Y (luma)</b>\[
+  Y=0.299(R-G)+G+0.114(B-G)
+  \]\[
+  =0.299(100-150)+150+0.114(200-150)
+  \]\[
+  =-14.95+150+5.70=140.75
+  \]</div>
+  <div class="step"><b>Langkah 2: Hitung Cb</b>\[
+  Cb=0.564(B-Y)=0.564(200-140.75)
+  \]\[Cb=0.564(59.25)=33.417\]</div>
+  <div class="step"><b>Langkah 3: Hitung Cr</b>\[
+  Cr=0.713(R-Y)=0.713(100-140.75)
+  \]\[Cr=0.713(-40.75)\approx-29.055\]</div>
+  <div class="note">Hasil berdasarkan rumus slide: \(Y=140.75\), \(Cb\approx33.417\), \(Cr\approx-29.055\). Jangan tertukar: Cb menggunakan \(B-Y\), Cr menggunakan \(R-Y\).</div>
+
+  <h2>Kasus 3 — RGB ke YUV</h2>
+  <p>Gunakan pixel yang sama: \(R=100\), \(G=150\), \(B=200\).</p>
+  <div class="step"><b>Langkah 1: Hitung Y</b>\[
+  Y=0.299(100)+0.587(150)+0.114(200)
+  \]\[Y=29.9+88.05+22.8=140.75\]</div>
+  <div class="step"><b>Langkah 2: Hitung U</b>\[
+  U=\frac{0.436(B-Y)}{1-0.114}
+  =\frac{0.436(200-140.75)}{0.886}
+  \]\[U=\frac{25.833}{0.886}\approx29.158\]</div>
+  <div class="step"><b>Langkah 3: Hitung V</b>\[
+  V=\frac{0.615(R-Y)}{1-0.299}
+  =\frac{0.615(100-140.75)}{0.701}
+  \]\[V=\frac{-25.061}{0.701}\approx-35.751\]</div>
+  <div class="note">Hasil: \(Y=140.75\), \(U\approx29.158\), \(V\approx-35.751\).</div>
+
+  <h2>Kasus 4 — Membaca kode Munsell</h2>
+  <p>Diketahui kode warna <b>5GY 8/2</b>.</p>
+  <ol><li>Bagian 5GY adalah Hue.</li><li>Angka 8 adalah Value, yaitu tingkat brightness.</li><li>Angka 2 adalah Chroma.</li></ol>
+  <div class="note">Jawaban: Hue = 5GY, Value = 8, Chroma = 2.</div>
+
+  <h2>Kasus 5 — Menentukan kode NCS</h2>
+  <p>Diketahui whiteness 10%, blackness 30%, yellowness 30%, redness 30%.</p>
+  <div class="step"><b>Langkah 1: Blackness</b>\[s=30\]</div>
+  <div class="step"><b>Langkah 2: Chromaticness</b>\[c=r+y=30+30=60\]</div>
+  <div class="step"><b>Langkah 3: Hue</b>\[r=y \Rightarrow \phi=Y50R\]</div>
+  <div class="note">Gabungkan blackness, chromaticness, dan hue: <b>3060-Y50R</b>.</div>
+
+  <h2>Kasus 6 — Hitungan gradient (Minggu 9)</h2>
+  <p>Diketahui \(G_x=3\) dan \(G_y=4\). Hitung magnitude gradient.</p>
+  <div class="step"><b>Substitusi</b>\[|\nabla I|=\sqrt{G_x^2+G_y^2}=\sqrt{3^2+4^2}\]</div>
+  <div class="step"><b>Hitung</b>\[|\nabla I|=\sqrt{9+16}=\sqrt{25}=5\]</div>
+  <div class="note">Magnitude gradient = 5. Jika diminta arah, gunakan \(\theta=\tan^{-1}(G_y/G_x)=\tan^{-1}(4/3)\), sekitar \(53.13^\circ\). Perhatikan konvensi sudut yang digunakan soal.</div>
+
+  <h2>Kasus 7 — Central difference (Minggu 9)</h2>
+  <p>Diketahui \(f(x+1)=18\) dan \(f(x-1)=10\). Hitung central difference.</p>
+  <div class="step"><b>Substitusi</b>\[\Delta f(x)=\frac{1}{2}[f(x+1)-f(x-1)]\]</div>
+  <div class="step"><b>Hitung</b>\[\Delta f(x)=\frac{1}{2}(18-10)=\frac{8}{2}=4\]</div>
+  <div class="note">Hasil central difference = 4.</div>
+  <div class="note"><b>Prioritas latihan hitungan:</b> CIE x-y, YCbCr, YUV, NCS, dan gradient magnitude. Matriks RGB ke YIQ juga bisa diuji dengan mengalikan setiap baris matriks terhadap vektor RGB.</div>
+</section>
+
+<section id="quiz" class="page">
+  <div class="eyebrow">Uji pemahaman</div><h1>Latihan Pilihan Ganda</h1>
+  <p class="lead">Pilih satu jawaban untuk setiap soal, lalu tekan Periksa jawaban. Soal mencakup teori dan beberapa hitungan singkat.</p>
+  <div id="quiz-area"></div>
+  <div class="actions"><button class="action" id="check-quiz">Periksa jawaban</button><button class="action" id="reset-quiz">Ulangi latihan</button></div>
+  <div id="quiz-result" class="panel" aria-live="polite">Belum diperiksa.</div>
+</section>
+</main>
+<footer>Materi belajar Minggu 9–10 • Pengolahan Citra Digital</footer>
+<script>
+const pages=[...document.querySelectorAll('.page')];
+function showPage(id){
+  pages.forEach(p=>p.classList.toggle('active',p.id===id));
+  document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===id));
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(window.MathJax&&MathJax.typesetPromise) MathJax.typesetPromise();
+}
+document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.page)));
+document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.go)));
+
+const questions=[
+{q:"Apa definisi edge pada citra?",o:["Area dengan warna selalu hitam","Perubahan brightness yang tajam","Bagian citra yang memiliki ukuran besar","Proses mengubah RGB menjadi CMYK"],a:1,e:"Edge adalah sharp change in brightness atau diskontinuitas."},
+{q:"Model edge ideal pada materi adalah ...",o:["Ramp","Roof","Step","Circle"],a:2,e:"Edge ideal dimodelkan sebagai step function."},
+{q:"Pada step edge ideal, turunan pertama akan menunjukkan ...",o:["Peak pada edge","Zero crossing pada edge","Nilai selalu nol","Nilai konstan"],a:0,e:"Turunan pertama menunjukkan peak; zero crossing ditunjukkan turunan kedua."},
+{q:"Zero crossing pada edge berkaitan dengan ...",o:["Turunan pertama","Turunan kedua","Hue","Saturation"],a:1,e:"Materi menyebut edge sebagai zero crossing dari turunan kedua."},
+{q:"Forward difference digunakan untuk memperkirakan ...",o:["Slope kiri","Slope kanan","Rata-rata dua slope","Brightness"],a:1,e:"Forward difference memakai f(x+1)-f(x), yaitu slope ke kanan."},
+{q:"Rumus central difference adalah ...",o:["f(x+1)-f(x)","f(x)-f(x-1)","0.5[f(x+1)-f(x-1)]","f(x+1)+f(x-1)"],a:2,e:"Central difference mengambil rata-rata slope kiri dan kanan."},
+{q:"Arah gradient terhadap kontur edge adalah ...",o:["Sejajar","Tegak lurus","Selalu horizontal","Selalu vertikal"],a:1,e:"Gradient tegak lurus terhadap edge contour."},
+{q:"Operator yang menggunakan bobot averaging lebih besar di bagian tengah adalah ...",o:["Prewitt","Sobel","Robert","CMYK"],a:1,e:"Sobel menggunakan pola bobot 1-2-1."},
+{q:"Filter Robert pada materi mengestimasi gradient sepanjang ...",o:["Dua diagonal citra","Sumbu warna RGB","Hanya horizontal","Hanya vertikal"],a:0,e:"Robert menggunakan dua filter diagonal berukuran 2×2."},
+{q:"Cara mengurangi pengaruh noise sebelum edge detection adalah ...",o:["Sharpening","Smoothing","Menambah saturation","Mengubah ke CMYK"],a:1,e:"Materi menyarankan smoothing/pre-smoothing sebelum deteksi tepi."},
+{q:"Tiga karakteristik warna adalah ...",o:["RGB, CMY, XYZ","Hue, brightness, saturation","Red, yellow, black","Luma, chroma, contrast"],a:1,e:"Tiga karakteristik: hue, brightness, saturation."},
+{q:"Additive color mixing menggunakan warna primer ...",o:["CMY","RGB","CMYK","YIQ"],a:1,e:"Additive adalah pencampuran cahaya dengan primer RGB."},
+{q:"Jika Red dan Green dicampur secara additive, hasilnya ...",o:["Cyan","Magenta","Yellow","Black"],a:2,e:"Red + Green = Yellow."},
+{q:"Subtractive mixing berkaitan dengan ...",o:["Cahaya","Pigmen yang menyerap cahaya","Pixel grayscale saja","Gelombang radio"],a:1,e:"Pigmen menyerap cahaya; primer subtractive adalah CMY."},
+{q:"Pada CIE XYZ, parameter yang dijelaskan sebagai brightness adalah ...",o:["X","Y","Z","x"],a:1,e:"Slide menyatakan Y sebagai brightness."},
+{q:"Dalam CIE Lab, sumbu a* menyatakan ...",o:["Biru-kuning","Hijau-merah","Brightness","Saturation saja"],a:1,e:"a* adalah sumbu green-red."},
+{q:"Pada Munsell, Value menunjukkan ...",o:["Hue","Brightness","Chroma","Jenis illuminant"],a:1,e:"Value adalah skala brightness dari 0 black sampai 10."},
+{q:"Kode Munsell 5GY 8/2 memiliki Value ...",o:["5GY","8","2","10"],a:1,e:"Formatnya Hue Value/Chroma, jadi Value=8."},
+{q:"Pada NCS, jumlah enam nilai r,y,g,b,s,w adalah ...",o:["50","90","100","255"],a:2,e:"Jumlah keenam nilai selalu 100."},
+{q:"Color space didefinisikan pada materi sebagai ...",o:["Model 1D untuk brightness","Model 3D untuk mendefinisikan warna","Filter untuk edge","Format kompresi saja"],a:1,e:"Color space adalah model 3D; perbedaan terletak pada pilihan sumbu."},
+{q:"Color space yang digunakan untuk printer dan subtractive mixing adalah ...",o:["RGB","YUV","CMYK","YIQ"],a:2,e:"CMYK digunakan untuk printing."},
+{q:"Cb dan Cr pada YCbCr masing-masing merepresentasikan ...",o:["Red dan Green","Blue chroma dan Red chroma","Brightness dan contrast","Black dan white"],a:1,e:"Cb=blue chroma, Cr=red chroma."},
+{q:"YUV pada slide dikaitkan dengan standar video ...",o:["NTSC, PAL, SECAM","JPEG saja","Bluetooth","USB"],a:0,e:"Materi menyebut NTSC, PAL, dan SECAM."},
+{q:"YIQ digunakan untuk video encoding standar ...",o:["PAL saja","SECAM saja","NTSC","HDMI saja"],a:2,e:"Slide mengaitkan YIQ dengan NTSC."},
+{q:"Jika X=20, Y=30, Z=50, berapa nilai x?",o:["0.20","0.30","0.50","2.00"],a:0,e:"x=20/(20+30+50)=20/100=0.20."},
+{q:"Jika Gx=3 dan Gy=4, magnitude gradient adalah ...",o:["3","4","5","7"],a:2,e:"√(3²+4²)=√25=5."},
+{q:"Pada RGB ke YCbCr, rumus Cb pada slide adalah ...",o:["0.564(B-Y)","0.713(R-Y)","0.436(B-Y)/(1-0.114)","0.615(R-Y)/(1-0.299)"],a:0,e:"Cb=0.564(B-Y), sedangkan Cr=0.713(R-Y)."},
+{q:"Pada RGB ke YUV, komponen U dihitung dengan ...",o:["0.615(R-Y)/(1-0.299)","0.436(B-Y)/(1-0.114)","0.564(B-Y)","0.299R+0.587G"],a:1,e:"Rumus U pada slide adalah 0.436(B-Y)/(1-0.114)."},
+{q:"Jika NCS memiliki r=30 dan y=30, chromaticness c adalah ...",o:["30","50","60","100"],a:2,e:"c=r+y+g+b. Karena hanya r dan y nonzero, c=30+30=60."},
+{q:"Dalam gradient-based edge detection, titik dipertahankan jika ...",o:["Magnitude rendah dan bukan local maximum","Magnitude melewati threshold dan local maximum pada arah gradient","Hue sama dengan cyan","Nilai RGB sama"],a:1,e:"Kedua kondisi harus terpenuhi: melewati threshold dan local maximum."}
+];
+const quizArea=document.getElementById('quiz-area');
+function renderQuiz(){
+ quizArea.innerHTML=questions.map((q,i)=>`<div class="question" id="question-${i}"><p>${i+1}. ${q.q}</p><div class="options">${q.o.map((v,j)=>`<label><input type="radio" name="q${i}" value="${j}"><span>${String.fromCharCode(65+j)}. ${v}</span></label>`).join('')}</div><div class="feedback" id="feedback-${i}"></div></div>`).join('');
+ document.getElementById('quiz-result').textContent='Belum diperiksa.';
+}
+document.getElementById('check-quiz').addEventListener('click',()=>{
+ let score=0,answered=0;
+ questions.forEach((q,i)=>{
+  const selected=document.querySelector(`input[name="q${i}"]:checked`);
+  const fb=document.getElementById(`feedback-${i}`);
+  if(selected){answered++;if(Number(selected.value)===q.a){score++;fb.className='feedback correct';fb.textContent='Benar. '+q.e;}else{fb.className='feedback wrong';fb.textContent='Belum tepat. Jawaban: '+String.fromCharCode(65+q.a)+'. '+q.o[q.a]+'. '+q.e;}}
+  else{fb.className='feedback wrong';fb.textContent='Belum dijawab. Jawaban: '+String.fromCharCode(65+q.a)+'. '+q.o[q.a]+'. '+q.e;}
+ });
+ document.getElementById('quiz-result').innerHTML=`<b>Skor: ${score} / ${questions.length}</b><br>Terjawab: ${answered} dari ${questions.length}<br>Nilai: ${(score/questions.length*100).toFixed(1)}%`;
+});
+document.getElementById('reset-quiz').addEventListener('click',renderQuiz);
+renderQuiz();
+</script>
+</body>
+</html>
